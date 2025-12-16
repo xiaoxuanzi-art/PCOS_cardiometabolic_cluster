@@ -1,10 +1,11 @@
 setwd("D:/OneDrive/前桌面")
 data_1494<-read.csv("retro_data.csv",header = T)
  library(factoextra)
-##选择聚类数目
+##chose_k
 fviz_nbclust(data_1494,kmeans,method="wss")
 fviz_nbclust(data_1494,kmeans,method="silhouette")
 fviz_nbclust(data_1494,kmeans,method="gap_stat",iter.max=100)
+### Determine the optimal number of k by a combination analysis of silhouette coefficient, gap statistics, and elbow methods. 
 set.seed(123)
 kmeans_result<-kmeans(data_1494,centers =3,iter.max = 100,nstart = 100)
 centroids <- kmeans_result$centers
@@ -24,6 +25,7 @@ library(fpc)
 dist_matrix <- dist(data) 
 ch_score <- cluster.stats(dist_matrix, kmeans_result$cluster)
 ch_score$ch
+### Manually adjust k values to assess the clustering stability by comparing the Jaccard similarity.
 library(fpc)
 set.seed(123)
 clusterboot(data_1494,B = 2000, bootmethod = "boot",clustermethod = kmeansCBI,
